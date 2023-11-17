@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import UserList from './components/userList';
+import Dashboard from './components/dashboard';
+import CreateUser from './components/createUser';
+import UpdateUser from './components/updateUser';
+import UserDetails from './components/userDetail';
 
-function App() {
+const queryClient = new QueryClient();
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Routes>
+          <Route path="/" exact element={<UserList/>} />
+          <Route path="/users" element={<UserList/>} />
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/create" element={<CreateUser/>} />
+          <Route path="/updateUser/:id" element={<UpdateUser/>} />
+          <Route path="/userDetails/:id" element={<UserDetails/>} />
+        </Routes>
+      </Router>
+    </QueryClientProvider>
   );
-}
+};
 
 export default App;
