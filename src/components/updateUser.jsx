@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../apiConfig';
 
 const getUser = async (userId) => {
-  const response = await fetch(`http://localhost:3000/api/users/${userId}`);
+  const apiUrl = getApiUrl()
+
+  const response = await fetch(`${apiUrl}/users/${userId}`);
   const data = await response.json();
   return data;
 };
 
 const updateUser = async (userId, userData) => {
-  const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+  const apiUrl = getApiUrl()
+  const response = await fetch(`${apiUrl}/users/${userId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

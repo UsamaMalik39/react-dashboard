@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from '../apiConfig';
 
 const createUser = async (userData) => {
-  const response = await fetch('http://localhost:3000/api/users', {
+  const apiUrl = getApiUrl()
+  const response = await fetch(`${apiUrl}/users`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

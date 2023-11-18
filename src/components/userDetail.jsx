@@ -2,9 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
+import { getApiUrl } from '../apiConfig';
 
 const fetchUser = async (id) => {
-  const response = await fetch(`http://localhost:3000/api/users/${id}`);
+  const apiUrl = getApiUrl()
+  const response = await fetch(`${apiUrl}/users/${id}`);
   const data = await response.json();
   return data;
 };

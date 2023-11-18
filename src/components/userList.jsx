@@ -2,13 +2,15 @@ import React from 'react';
 import { useQuery,useQueryClient  } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { getApiUrl } from '../apiConfig';
 
 
 const UserList = () => {
   const navigate = useNavigate();
+  const apiUrl = getApiUrl()
   const queryClient = useQueryClient();
   const { data: users, isLoading, error } = useQuery('users', async () => {
-    const response = await fetch('http://localhost:3000/api/users');
+    const response = await fetch(`${apiUrl}/users`);
     const data = await response.json();
     return data;
   });
@@ -26,7 +28,8 @@ const UserList = () => {
     navigate(`/updateUser/${userId}`);
   };
   const handleDeleteClick = async (userId) => {
-    const response = await fetch(`http://localhost:3000/api/users/${userId}`,{method: 'DELETE'});
+    const apiUrl = getApiUrl()
+    const response = await fetch(`${apiUrl}/users/${userId}`,{method: 'DELETE'});
     if (response.ok) {
       console.log(`User with ID ${userId} deleted successfully.`);
       queryClient.invalidateQueries('users');

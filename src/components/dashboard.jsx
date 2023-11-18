@@ -2,6 +2,7 @@ import React , { useEffect } from 'react';
 import Highcharts from 'highcharts';
 import { Link } from 'react-router-dom';
 import { useQuery  } from 'react-query';
+import { getApiUrl } from '../apiConfig';
 
 const calculateGenderPercentage = (data) => {
     if (!Array.isArray(data)) {
@@ -31,8 +32,10 @@ const calculateGenderPercentage = (data) => {
     return resultArray;
 };
 const Dashboard = () => {
+    const apiUrl = getApiUrl()
+    debugger;
     const { data: users, isLoading, error } = useQuery('users', async () => {
-        const response = await fetch('http://localhost:3000/api/users');
+        const response = await fetch(`${apiUrl}/users`);
         const data = await response.json();
         return data;
       });
