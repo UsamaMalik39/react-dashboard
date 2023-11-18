@@ -1,6 +1,7 @@
 import React , { useEffect } from 'react';
 import Highcharts from 'highcharts';
-import {Outlet} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 const Dashboard = () => {
     useEffect(() => {
         Highcharts.chart('container', {
@@ -78,10 +79,15 @@ const Dashboard = () => {
 
 
   return (
-    <div>
-        <Outlet/>
-      <h2>Dashboard</h2>
-      <div id="container"></div>
+    <div className='m-10'>
+        <div className='flex justify-between items-center'>
+            <h2 className='text-[30px] font-semibold mb-2'>Dashboard</h2>
+            <div className='flex gap-2 items-center'>
+            <Link to={"/create"} className='p-2 bg-green-400 text-green-900 rounded-md'>Create</Link>
+            <Link to={"/users"} className='p-2 bg-slate-200 text-slate-900 rounded-md'>View Users</Link>
+            </div>
+        </div>
+      <div id="container" className='rounded-lg'></div>
     </div>
   );
 };

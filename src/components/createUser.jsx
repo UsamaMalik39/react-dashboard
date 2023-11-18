@@ -40,19 +40,26 @@ const CreateUser = () => {
   };
 
   return (
-    <div>
-      <h1>Create User</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className='m-10'>
+        <h1>Create User</h1>
+      <form className='gap-4 m-10 w-[400px] bg-gray-50 rounded-lg p-5  w-content flex flex-col' onSubmit={handleSubmit}>
+        <label className='flex gap-5 items-center'>
           Name:
-          <input type="text" name="name" value={userData.name} onChange={handleInputChange} />
+          <input type="text" className='border-gray-800 p-2 border rounded-sm'  name="name" value={userData.name} onChange={handleInputChange} />
         </label>
-        <button type="submit" disabled={mutation.isLoading}>
+        <label className='flex gap-5 items-center'>
+          Gender:
+          <input type="text" className='border-gray-800 p-2 border rounded-sm' name="gender" value={userData.gender} onChange={handleInputChange} />
+        </label>
+        <button className='p-2 bg-green-400 text-green-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
           {mutation.isLoading ? 'Creating...' : 'Create User'}
+        </button>
+        <button className='p-2 bg-red-500 text-red-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
+          {mutation.isLoading ? 'Cancelling..' : 'Cancel'}
         </button>
       </form>
     </div>
-  );
+    );
 };
 
 export default CreateUser;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
@@ -17,9 +17,20 @@ const UserDetails = () => {
   }
 
   return (
-    <div>
-      <h1>User Details</h1>
-      <p>Name: {user.name}</p>
+    <div className='m-10'>
+      <h2 className='font-bold bg-gradient-to-l text-[30px] from-orange-500 to-red-500 bg-clip-text'>User Details</h2>
+      <ul className='grid grid-cols-2 gap-4 m-10 bg-gray-50 rounded-lg p-5'>
+        <div>
+          <h3>Name</h3>
+        </div>
+        <div>
+          <h3>Gender</h3>
+        </div>
+        <li key={user._id} className='contents'>
+          <p>{user.name}</p>
+          <p>{user.gender}</p>
+        </li>
+      </ul>
     </div>
   );
 };

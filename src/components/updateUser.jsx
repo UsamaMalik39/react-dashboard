@@ -60,15 +60,22 @@ const UpdateUser = () => {
   };
 
   return (
-    <div>
+    <div className='m-10'>
       <h1>Update User</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+      <form className='gap-4 m-10 w-[400px] bg-gray-50 rounded-lg p-5  w-content flex flex-col' onSubmit={handleSubmit}>
+        <label className='flex gap-5 items-center'>
           Name:
-          <input type="text" name="name" value={userData.name} onChange={handleInputChange} />
+          <input type="text" className='border-gray-800 p-2 border rounded-sm'  name="name" value={userData.name} onChange={handleInputChange} />
         </label>
-        <button type="submit" disabled={mutation.isLoading}>
+        <label className='flex gap-5 items-center'>
+          Gender:
+          <input type="text" className='border-gray-800 p-2 border rounded-sm' name="gender" value={userData.gender} onChange={handleInputChange} />
+        </label>
+        <button className='p-2 bg-yellow-400 text-yellow-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
           {mutation.isLoading ? 'Updating...' : 'Update User'}
+        </button>
+        <button className='p-2 bg-red-500 text-red-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
+          {mutation.isLoading ? 'Cancelling..' : 'Cancel'}
         </button>
       </form>
     </div>
