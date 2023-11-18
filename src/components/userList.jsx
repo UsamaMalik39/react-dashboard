@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery,useQueryClient  } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const UserList = () => {
@@ -37,8 +38,12 @@ const UserList = () => {
 
   return (
     <div>
-      <div className='m-10 flex justify-between items-center'><h2 className='font-bold bg-gradient-to-l text-[30px] from-orange-500 to-red-500 bg-clip-text'>User List</h2>
-      <button className='p-2 bg-slate-200 text-slate-900 rounded-md'>Create User</button></div>
+      <div className='m-10 flex justify-between items-center'><h2 className='text-[30px] font-semibold mb-2'>User List</h2>
+      <div className='flex justify-start items-center gap-5'>
+        <Link to={"/create"} className='p-2 bg-slate-200 text-slate-900 rounded-md'>Create User</Link>
+        <Link to={"/dashboard"} className='p-2 bg-blue-200 text-slate-900 rounded-md'>Dashboard</Link>
+      </div>
+      </div>
       <ul className='grid grid-cols-3 gap-4 m-10 bg-gray-50 rounded-lg p-5'>
         <div>
           <h3>Name</h3>

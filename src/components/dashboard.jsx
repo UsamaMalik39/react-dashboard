@@ -1,78 +1,87 @@
 import React , { useEffect } from 'react';
 import Highcharts from 'highcharts';
 import { Link } from 'react-router-dom';
+import { useQuery  } from 'react-query';
 
+const calculateGenderPercentage = (data) => {
+    if (!Array.isArray(data)) {
+        console.error("Invalid data format. Expected an array.");
+        return [];
+    }
+
+    let maleCount = 0;
+    let femaleCount = 0;
+    data.forEach((item) => {
+        if (item.gender === 'male') {
+            maleCount++;
+        } else if (item.gender === 'female') {
+            femaleCount++;
+        }
+    });
+
+    const total = maleCount + femaleCount;
+    const malePercentage = total === 0 ? 0 : (maleCount / total) * 100;
+    const femalePercentage = total === 0 ? 0 : (femaleCount / total) * 100;
+
+    const resultArray = [
+        { name: 'male', y: malePercentage },
+        { name: 'female', y: femalePercentage },
+    ];
+
+    return resultArray;
+};
 const Dashboard = () => {
+    const { data: users, isLoading, error } = useQuery('users', async () => {
+        const response = await fetch('http://localhost:3000/api/users');
+        const data = await response.json();
+        return data;
+      });
     useEffect(() => {
-        Highcharts.chart('container', {
-            chart: {
-                type: 'pie'
-            },
-            title: {
-                text: 'Egg Yolk Composition'
-            },
-            tooltip: {
-                valueSuffix: '%'
-            },
-            subtitle: {
-                text:
-                'Source:<a href="https://www.mdpi.com/2072-6643/11/3/684/htm" target="_default">MDPI</a>'
-            },
-            plotOptions: {
-                series: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: [{
-                        enabled: true,
-                        distance: 20
-                    }, {
-                        enabled: true,
-                        distance: -40,
-                        format: '{point.percentage:.1f}%',
-                        style: {
-                            fontSize: '1.2em',
-                            textOutline: 'none',
-                            opacity: 0.7
-                        },
-                        filter: {
-                            operator: '>',
-                            property: 'percentage',
-                            value: 10
-                        }
-                    }]
-                }
-            },
-            series: [
-                {
-                    name: 'Percentage',
-                    colorByPoint: true,
-                    data: [
-                        {
-                            name: 'Water',
-                            y: 55.02
-                        },
-                        {
-                            name: 'Fat',
-                            sliced: true,
-                            selected: true,
-                            y: 26.71
-                        },
-                        {
-                            name: 'Carbohydrates',
-                            y: 1.09
-                        },
-                        {
-                            name: 'Protein',
-                            y: 15.5
-                        },
-                        {
-                            name: 'Ash',
-                            y: 1.68
-                        }
-                    ]
-                }
-            ]
+        if (!isLoading && !error && users) {
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Gender Division'
+                },
+                tooltip: {
+                    valueSuffix: '%'
+                },
+                plotOptions: {
+                    series: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: [{
+                            enabled: true,
+                            distance: 20
+                        }, {
+                            enabled: true,
+                            distance: -40,
+                            format: '{point.percentage:.1f}%',
+                            style: {
+                                fontSize: '1.2em',
+                                textOutline: 'none',
+                                opacity: 0.7
+                            },
+                            filter: {
+                                operator: '>',
+                                property: 'percentage',
+                                value: 10
+                            }
+                        }]
+                    }
+                },
+                series: [
+                    {
+                        name: 'Percentage',
+                        colorByPoint: true,
+                        data: calculateGenderPercentage(users) 
+                    }
+                ]
             });
+        }
+        
     });
 
   

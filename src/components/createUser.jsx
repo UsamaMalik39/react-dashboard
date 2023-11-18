@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 const createUser = async (userData) => {
   const response = await fetch('http://localhost:3000/api/users', {
@@ -15,16 +16,19 @@ const createUser = async (userData) => {
 };
 
 const CreateUser = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const mutation = useMutation(createUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('users');
+      goBack()
     },
   });
 
   const [userData, setUserData] = useState({
-    name: ''
-});
+    name: '',
+    gender: '', 
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,11 +41,17 @@ const CreateUser = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     mutation.mutate(userData);
+    
+  };
+
+
+  const goBack = () => {
+    navigate(`/users`);
   };
 
   return (
     <div className='m-10'>
-        <h1>Create User</h1>
+      <h2 className='text-[30px] font-semibold mb-2'>Create User</h2>
       <form className='gap-4 m-10 w-[400px] bg-gray-50 rounded-lg p-5  w-content flex flex-col' onSubmit={handleSubmit}>
         <label className='flex gap-5 items-center'>
           Name:
@@ -54,12 +64,12 @@ const CreateUser = () => {
         <button className='p-2 bg-green-400 text-green-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
           {mutation.isLoading ? 'Creating...' : 'Create User'}
         </button>
-        <button className='p-2 bg-red-500 text-red-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
+        <button  onClick={() => goBack()} className='p-2 bg-red-500 text-red-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
           {mutation.isLoading ? 'Cancelling..' : 'Cancel'}
         </button>
       </form>
     </div>
-    );
+  );
 };
 
 export default CreateUser;

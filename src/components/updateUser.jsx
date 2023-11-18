@@ -29,12 +29,13 @@ const UpdateUser = () => {
   const mutation = useMutation((userData) => updateUser(id, userData), {
     onSuccess: () => {
       queryClient.invalidateQueries('users');
-      navigate(`/users`);
+      goBack();
     },
   });
 
   const [userData, setUserData] = useState({
     name: '',
+    gender:'',
   });
 
   useEffect(() => {
@@ -59,9 +60,13 @@ const UpdateUser = () => {
     mutation.mutate(userData);
   };
 
+  const goBack = () => {
+    navigate(`/users`);
+  };
+
   return (
     <div className='m-10'>
-      <h1>Update User</h1>
+      <h2 className='text-[30px] font-semibold mb-2'>Update User</h2>
       <form className='gap-4 m-10 w-[400px] bg-gray-50 rounded-lg p-5  w-content flex flex-col' onSubmit={handleSubmit}>
         <label className='flex gap-5 items-center'>
           Name:
@@ -74,7 +79,7 @@ const UpdateUser = () => {
         <button className='p-2 bg-yellow-400 text-yellow-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
           {mutation.isLoading ? 'Updating...' : 'Update User'}
         </button>
-        <button className='p-2 bg-red-500 text-red-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
+        <button  onClick={() => goBack()}   className='p-2 bg-red-500 text-red-900 rounded-lg' type="submit" disabled={mutation.isLoading}>
           {mutation.isLoading ? 'Cancelling..' : 'Cancel'}
         </button>
       </form>
